@@ -1,0 +1,50 @@
+libaiengine-${sub-modules}-${platform}-${version}-${timestamp}
+
+sub-modules:
+    ----------------------------
+    module    |  dec  |   bits
+    ----------------------------
+    vad       |  1    | 0000000000001
+    asr       |  2    | 0000000000010
+    sv        |  4    | 0000000000100
+    cntts     |  8    | 0000000001000
+    wakeup    |  16   | 0000000010000
+    grammar   |  32   | 0000000100000
+    eval      |  64   | 0000001000000
+    exam      |  128  | 0000010000000
+    provision |  256  | 0000100000000
+    wakeupasr |  512  | 0001000000000
+    entts     |  1024 | 0010000000000
+    semantic  |  2048 | 0100000000000
+    fre       |  4096 | 1000000000000
+    cont      |  8192 | 10000000000000
+
+    we use bit to identify aiengine's sub-modules, for example:
+        0: no the previous sub-module is supported, it's the smallest library for communicating with cloud speech service
+        1: 'vad'
+        31: 'vad', 'asr', 'sv', 'cntts', 'wakeup'
+        449: 'vad', 'eval', 'exam', 'provision'
+        1473: 'vad', 'eval', 'exam', 'entts', 'provision'
+
+platform:
+    1. android
+        android_armv5te - compatible with all known arm based android phone, lowest performance
+        android_armv6_vfp - compatible with 99%+ arm based android phone, better performance
+        android_armv7a_vfpv3 - compatible with cortex-a serials android phone, high performance
+        android_armv7a_neon - compatible with cortex-a serials android phone, highest performance, bad compatibility
+
+        I suggest two release ways for android platform:
+            a. only release aiengine-armv6_vfp
+                mv libaiengine-armv6_vfp-*.so to android-app/libs/armeabi/libaiengine.so
+            b. release aiengine-armv5te and aiengine-armv7a_vfpv3
+                mv libaiengine-armv5te-*.so to android-app/libs/armeabi/libaiengine.so
+                mv libaiengine-armv7a_vfpv3-*.so to android-app/libs/armeabi-v7a/libaiengine.so
+
+    2. ios
+       the aiengine library for ios is a fat library, supports three arch: i386, armv7, armv7s
+
+version:
+    ${major}.${minor}.{bugfix}
+
+timestamp:
+    it's unix-timestamp for identifing when we build this aiengine
